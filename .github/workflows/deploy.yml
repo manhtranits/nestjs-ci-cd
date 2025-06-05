@@ -36,7 +36,7 @@ jobs:
           context: .
           file: Dockerfile
       - name: SSH to virtual machine
-        uses: appleboy/scp-action@v1
+        uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USER }}
