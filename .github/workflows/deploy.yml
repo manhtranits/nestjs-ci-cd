@@ -50,4 +50,4 @@ jobs:
             docker compose pull ${{env.BACKEND_SERVICE_NAME}}
             docker compose down
             docker compose up -d
-            docker system prune -f
+            docker image prune -a -f
