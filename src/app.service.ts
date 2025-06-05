@@ -7,6 +7,6 @@ export class AppService {
   constructor(@Inject(CACHE_INSTANCE) private cacheable: Cacheable) {}
   async getHello(): Promise<string> {
     await this.cacheable.set('Hello', 'world')
-    return 'Hello World!'
+    return 'Hello ITS!'
   }
 }
