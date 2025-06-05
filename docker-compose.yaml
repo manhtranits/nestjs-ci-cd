@@ -1,8 +1,6 @@
 x-templates:
   api: &api
-    image: its-nestjs-api
-    build:
-      context: .
+    image: ${IMAGE}
     logging:
       driver: json-file
       options:
@@ -30,6 +28,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./acme.json:/acme.json:rw
+    depends_on:
+      - api
 
   api:
     <<: *api
@@ -46,6 +46,18 @@ services:
       - 'traefik.http.middlewares.api-stripprefix.stripprefix.prefixes=/api'
       - 'traefik.http.middlewares.api-addprefix.addprefix.prefix=/api/v1'
       - 'traefik.http.routers.api.middlewares=api-stripprefix,api-addprefix'
+    networks:
+      - its-nestjs
+    depends_on:
+      - redis
+  redis:
+    image: redis:latest
+    container_name: its-redis
+    volumes:
+      - ./tmp/redis-data:/data
+    restart: always
+    expose:
+      - ${REDIS_PORT:-6379}
     networks:
       - its-nestjs
 
